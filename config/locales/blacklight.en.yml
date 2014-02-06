@@ -1,0 +1,4 @@
+en:
+  blacklight:
+    application_name: 'Blacklight'
+    email_search_subject: 'Your saved search history'
