@@ -173,5 +173,33 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
+  
+   # get search results from the solr index
+    def index
+      
+      (@response, @document_list) = get_search_results
+      @filters = params[:f] || []
+
+      params_copy = params.reject { |k,v| blacklisted_search_session_params.include?(k.to_sym) or v.blank? }
+
+      return if params_copy.reject { |k,v| [:action, :controller].include? k.to_sym }.blank?
+
+      saved_search = searches_from_history.select { |x| x.query_params == params_copy }.first
+
+      s = Search.new(:query_params => params_copy)
+      s.numfound = @response.response["numFound"]
+      s.save
+      add_to_search_history(s)
+
+      respond_to do |format|
+        format.html { }
+        format.rss  { render :layout => false }
+        format.atom { render :layout => false }
+
+        format.json do
+          render json: render_search_results_as_json
+        end
+      end
+    end
 
 end 
