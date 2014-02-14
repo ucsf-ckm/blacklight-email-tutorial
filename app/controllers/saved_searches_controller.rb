@@ -11,7 +11,15 @@ class SavedSearchesController < ApplicationController
      @searches = current_user.searches
 
      if request.post? and validate_email_params
-       
+        
+        @searches = Array.new
+
+       current_user.searches.each do |s|
+          if params[(s.id).to_s] == "1"
+            @searches << s
+          end
+        end
+        
         email = SearchMailer.email_search(@searches, {:to => params[:to], :message => params[:message]}, url_options)
         email.deliver
 

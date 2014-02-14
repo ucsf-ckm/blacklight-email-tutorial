@@ -12,6 +12,14 @@ class SearchHistoryController < ApplicationController
 
      if request.post? and validate_email_params
        
+       @searches = Array.new
+
+       searches_from_history.each do |s|
+         if params[(s.id).to_s] == "1"
+           @searches << s
+         end
+       end
+       
         email = SearchMailer.email_search(@searches, {:to => params[:to], :message => params[:message]}, url_options)
         email.deliver
 
