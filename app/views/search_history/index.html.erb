@@ -5,6 +5,7 @@
 <%- else -%>
     <%= link_to t('blacklight.search_history.clear.action_title'), clear_search_history_path, :method => :delete, :data => { :confirm => t('blacklight.search_history.clear.action_confirm') }, :class => 'btn btn-danger pull-right' %>
   <h3><%=t('blacklight.search_history.recent')%></h3>
+  <%= render 'search_tools' %>
   <table class="table table-striped search_history">
     <%-  @searches.each_with_index do |search,index| -%>
     <%= content_tag :tr, :id => "document_#{index + 1}" do %>

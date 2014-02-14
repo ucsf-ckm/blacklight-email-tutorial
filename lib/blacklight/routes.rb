@@ -22,6 +22,15 @@ module Blacklight
         end
       end
       
+      def search_history(_)
+        add_routes do |options|
+          get "search_history",             :to => "search_history#index",   :as => "search_history"
+          delete "search_history/clear",       :to => "search_history#clear",   :as => "clear_search_history"          
+          get "search_history/email",       :to => "search_history#email",   :as => "email_search_history"
+          post "search_history/email"
+        end
+      end
+      
     end
     include RouteSets
   end
