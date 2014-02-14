@@ -12,15 +12,18 @@ class SavedSearchesController < ApplicationController
 
      if request.post? and validate_email_params
         
+        # only send searches that were checked in the email form
         @searches = Array.new
+        @comments = Hash.new
 
-       current_user.searches.each do |s|
-          if params[(s.id).to_s] == "1"
-            @searches << s
-          end
-        end
+         current_user.searches.each do |s|
+           if params[(s.id).to_s] == "1"
+             @searches << s
+             @comments[s.id] = params[("notes_" + (s.id).to_s)]
+           end
+         end
         
-        email = SearchMailer.email_search(@searches, {:to => params[:to], :message => params[:message]}, url_options)
+        email = SearchMailer.email_search(@searches, @comments, {:to => params[:to], :message => params[:message]}, url_options)
         email.deliver
 
         flash[:success] = I18n.t("blacklight.email.success")

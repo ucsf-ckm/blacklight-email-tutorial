@@ -3,5 +3,7 @@ Here are your saved searches
 sent with the message: <%= @message %>
 
 <% @searches.each do |s| %>
-http://localhost:3000/?<%=(s.query_params).to_query%>
+search: http://localhost:3000/?<%=(s.query_params).to_query%>
+comments: <%= @comments[s.id]%>
+
 <%end%>

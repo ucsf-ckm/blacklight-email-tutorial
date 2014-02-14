@@ -13,14 +13,16 @@ class SearchHistoryController < ApplicationController
      if request.post? and validate_email_params
        
        @searches = Array.new
+       @comments = Hash.new
 
        searches_from_history.each do |s|
          if params[(s.id).to_s] == "1"
            @searches << s
+           @comments[s.id] = params[("notes_" + (s.id).to_s)]
          end
        end
        
-        email = SearchMailer.email_search(@searches, {:to => params[:to], :message => params[:message]}, url_options)
+        email = SearchMailer.email_search(@searches, @comments, {:to => params[:to], :message => params[:message]}, url_options)
         email.deliver
 
         flash[:success] = I18n.t("blacklight.email.success")

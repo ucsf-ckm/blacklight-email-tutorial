@@ -21,6 +21,7 @@
   <%= content_tag :tr, :id => "document_#{index + 1}" do %>
   	<td class="query"><%= check_box_tag search.id %></td>
     <td class="query"><%= link_to_previous_search(search.query_params) %></td>
+    <td class="query"><%= text_field_tag ("notes_" + search.id.to_s) %></td>
     <%- if has_user_authentication_provider? -%>
     <td>results: <%= search.numfound %></td>
     <%- end -%>
