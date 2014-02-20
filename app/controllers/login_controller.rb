@@ -2,10 +2,10 @@ class LoginController < ApplicationController
   include Blacklight::Configurable
 
   def myaccess
-    @user = User.find_by_email("abc@123.com")  #swap to request.headers['eppn'] for shib
+    @user = User.find_by_email(request.headers['eduPersonPrincipalName'])  # shib parameter
     
     if @user.nil?
-      @user = User.new(:email => 'abc@123.com', :password => 'password', :password_confirmation => 'password')
+      @user = User.new(:email => request.headers['eduPersonPrincipalName'], :password => 'password', :password_confirmation => 'password')
       @user.save
     end
     

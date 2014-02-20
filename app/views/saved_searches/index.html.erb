@@ -22,6 +22,7 @@
     <tr>
       <td><%= link_to_previous_search(search.query_params) %></td>
       <td>results: <%= search.numfound %></td>
+      <td><%= search.created_at %></td>
       <td><%= button_to t('blacklight.saved_searches.delete'), forget_search_path(search.id) %></td>
     </tr>
   <%- end -%>
