@@ -6,6 +6,8 @@ BlacklightTobacco::Application.routes.draw do
   Blacklight::Marc.add_routes(self)
 
   devise_for :users
+  
+  match 'myaccess' => 'login#myaccess'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
